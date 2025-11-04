@@ -18,4 +18,5 @@ class AppColors {
   static const Color expense = Color(0xFFFD3C4A); // Tetap merah
 
   // Hapus warna-warna lama seperti AppColors.card
+  static const Color card = Color(0xFFFFFFFF);
 }

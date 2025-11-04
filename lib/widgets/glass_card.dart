@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:rpl_fr/utils/colors.dart'; // Ganti 'project_name'
+import '../utils/colors.dart';
 
 class GlassCard extends StatelessWidget {
   final Widget child;

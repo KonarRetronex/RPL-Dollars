@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-// Ganti 'project_name' dengan nama proyek Anda (folder lib)
-import 'add_category_screen.dart'; 
-import 'package:rpl_fr/screens/dashboard_screen.dart'; 
+import 'add_category_screen.dart'; // Ganti 'project_name'
+import 'dashboard_screen.dart'; // Ganti 'project_name'
 import 'dart:ui'; // Untuk BackdropFilter
 import '../utils/colors.dart';
 
@@ -23,14 +22,6 @@ class _MainScreenState extends State<MainScreen> {
     const Center(child: Text('Halaman Profil')), // Placeholder
   ];
 
-  // Daftar judul untuk AppBar
-  static const List<String> _widgetTitles = <String>[
-    'Hello!', // Judul untuk Dashboard
-    'Statistic', // Judul untuk Statistik
-    'Category', // Judul untuk Kategori
-    'Profile', // Judul untuk Profil
-  ];
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -40,16 +31,16 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // TAMBAHKAN APPBAR DI SINI
-      appBar: AppBar(
-        title: Text(_widgetTitles.elementAt(_selectedIndex)),
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
       ),
       
-      // HAPUS 'Center' DARI BODY
-      body: _widgetOptions.elementAt(_selectedIndex),
-
+      // Hapus FloatingActionButton
+      
+      // Gunakan BottomNavigationBar
       bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
+        // Ini trik untuk membuat BNB transparan
+        decoration: BoxDecoration(
           color: Colors.transparent,
         ),
         child: ClipRRect(
@@ -76,6 +67,7 @@ class _MainScreenState extends State<MainScreen> {
               ],
               currentIndex: _selectedIndex,
               onTap: _onItemTapped,
+              // Styling diambil dari theme.dart
             ),
           ),
         ),
