@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../utils/colors.dart';
+import 'glass_card.dart';
 
 class IncomeExpenseCard extends StatelessWidget {
   final String income;
@@ -13,62 +14,74 @@ class IncomeExpenseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
-        Expanded(
+        GlassCard(
+          padding: const EdgeInsets.all(12),
           child: _buildCard(
             context,
-            'Pemasukan',
+            'Income',
             income,
             AppColors.income,
-            Icons.arrow_downward,
+            Icons.arrow_upward,
           ),
         ),
-        const SizedBox(width: 16),
-        Expanded(
+        const SizedBox(height: 16),
+        GlassCard(
+          padding: const EdgeInsets.all(12),
           child: _buildCard(
             context,
-            'Pengeluaran',
+            'Expense',
             expense,
             AppColors.expense,
-            Icons.arrow_upward,
+            Icons.arrow_downward,
           ),
         ),
       ],
     );
   }
 
-  Widget _buildCard(
-    BuildContext context,
-    String title,
-    String amount,
-    Color color,
-    IconData icon,
-  ) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            CircleAvatar(
-              backgroundColor: color.withOpacity(0.1),
-              child: Icon(icon, color: color),
+// Di dalam file: lib/widgets/income_expense_card.dart
+
+Widget _buildCard(
+  BuildContext context,
+  String title,
+  String amount,
+  Color color,
+  IconData icon,
+) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Row(
+        children: [
+          CircleAvatar(
+            backgroundColor: color.withOpacity(0.2),
+            radius: 12,
+            child: Icon(icon, color: color, size: 14),
+          ),
+          const SizedBox(width: 8),
+          Expanded( // <-- TAMBAHKAN INI
+            child: Text(
+              title,
+              style: Theme.of(context).textTheme.labelMedium,
+              overflow: TextOverflow.ellipsis, // Jaga-jaga jika judul terlalu panjang
             ),
-            const SizedBox(width: 12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: Theme.of(context).textTheme.labelMedium),
-                const SizedBox(height: 4),
-                Text(
-                  amount,
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontSize: 16, color: color),
-                ),
-              ],
-            ),
-          ],
+          ),
+        ],
+      ),
+      const SizedBox(height: 8),
+      Flexible( // <-- TAMBAHKAN INI
+        child: Text(
+          amount,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
+          // Hapus overflow & maxLines agar bisa wrap
         ),
       ),
-    );
-  }
+    ],
+  );
+}
 }

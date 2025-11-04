@@ -124,10 +124,12 @@ class DashboardScreen extends StatelessWidget {
 
   // Widget helper untuk tombol aksi
   Widget _buildActionButtons(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        _ActionButton(
+  return Row(
+    // Kita gunakan crossAxisAlignment.start agar sejajar di atas
+    crossAxisAlignment: CrossAxisAlignment.start, 
+    children: [
+      Expanded( // <-- TAMBAHKAN WIDGET INI
+        child: _ActionButton(
           icon: Icons.add,
           label: 'Add Transaction',
           onTap: () {
@@ -137,35 +139,58 @@ class DashboardScreen extends StatelessWidget {
             );
           },
         ),
-        _ActionButton(icon: Icons.pie_chart, label: 'Monthly Budgeting', onTap: () {}),
-        _ActionButton(icon: Icons.account_balance_wallet, label: 'Multi-Wallet', onTap: () {}),
-        _ActionButton(icon: Icons.search, label: 'Searching', onTap: () {}),
-      ],
-    );
-  }
+      ),
+      Expanded( // <-- TAMBAHKAN WIDGET INI
+        child: _ActionButton(
+            icon: Icons.pie_chart, label: 'Monthly Budgeting', onTap: () {}),
+      ),
+      Expanded( // <-- TAMBAHKAN WIDGET INI
+        child: _ActionButton(
+            icon: Icons.account_balance_wallet, label: 'Multi-Wallet', onTap: () {}),
+      ),
+      Expanded( // <-- TAMBAHKAN WIDGET INI
+        child: _ActionButton(
+            icon: Icons.search, label: 'Searching', onTap: () {}),
+      ),
+    ],
+  );
+}
 }
 
 // Widget helper untuk UI tombol
+// Widget helper untuk UI tombol
 class _ActionButton extends StatelessWidget {
+  // 1. DEKLARASIKAN PROPERTI DI SINI
   final IconData icon;
   final String label;
   final VoidCallback onTap;
 
-  const _ActionButton({required this.icon, required this.label, required this.onTap});
+  // 2. TAMBAHKAN CONSTRUCTOR INI
+  const _ActionButton({
+    Key? key,
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: onTap, // Sekarang 'onTap' dikenali
       child: Column(
         children: [
           GlassCard(
             borderRadius: 50, // Lingkaran
             padding: const EdgeInsets.all(16),
-            child: Icon(icon, color: Colors.white, size: 30),
+            child: Icon(icon, color: Colors.white, size: 30), // 'icon' dikenali
           ),
           const SizedBox(height: 8),
-          Text(label, style: Theme.of(context).textTheme.labelMedium),
+          Text(
+            label, // 'label' dikenali
+            style: Theme.of(context).textTheme.labelMedium,
+            textAlign: TextAlign.center, // <-- TAMBAHKAN INI
+            maxLines: 2, // <-- TAMBAHKAN INI (Boleh 2 baris)
+          ),
         ],
       ),
     );
