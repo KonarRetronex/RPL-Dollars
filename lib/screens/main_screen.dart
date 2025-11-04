@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:RPL_FR/screens/add_category_screen.dart'; // Ganti 'project_name'
-import 'package:RPL_FR/screens/dashboard_screen.dart'; // Ganti 'project_name'
+import 'add_category_screen.dart'; // Ganti 'project_name'
+import 'dashboard_screen.dart'; // Ganti 'project_name'
 import 'add_transaction_screen.dart';
 import '../utils/colors.dart';
 
