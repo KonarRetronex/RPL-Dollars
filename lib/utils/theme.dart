@@ -8,7 +8,7 @@ ThemeData buildAppTheme() {
     scaffoldBackgroundColor: AppColors.background, // Latar belakang gelap
     colorScheme: ColorScheme.fromSeed(
       seedColor: AppColors.primary,
-      background: AppColors.background,
+      surface: AppColors.background,
       brightness: Brightness.dark, // PENTING: Atur ke dark mode
     ),
     fontFamily: GoogleFonts.poppins().fontFamily,

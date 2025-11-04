@@ -139,7 +139,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
                       : catProvider.expenseCategories;
 
                   return DropdownButtonFormField<String>(
-                    value: _selectedCategoryId,
+                    initialValue: _selectedCategoryId,
                     decoration: const InputDecoration(
                       labelText: 'Kategori',
                       prefixIcon: Icon(Icons.category),

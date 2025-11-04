@@ -60,7 +60,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                       ),
                       const SizedBox(height: 16),
                       DropdownButtonFormField<TransactionType>(
-                        value: _selectedType,
+                        initialValue: _selectedType,
                         decoration: const InputDecoration(labelText: 'Jenis'),
                         items: const [
                           DropdownMenuItem(

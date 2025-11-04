@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../providers/category_provider.dart';
 import '../providers/transaction_provider.dart';
-import '../utils/colors.dart';
 import '../widgets/balance_card.dart'; // Widget ini akan kita ubah
 import '../widgets/income_expense_card.dart'; // Widget ini akan kita ubah
 import '../widgets/transaction_tile.dart'; // Widget ini akan kita ubah
@@ -124,23 +123,38 @@ class DashboardScreen extends StatelessWidget {
   }
 
   // Widget helper untuk tombol aksi
-  Widget _buildActionButtons(BuildContext context) {
+ Widget _buildActionButtons(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      
       children: [
-        _ActionButton(
-          icon: Icons.add,
-          label: 'Add Transaction',
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                  builder: (context) => const AddTransactionScreen()),
-            );
-          },
+        // Tombol Add Transaction
+        Expanded(
+          child: _ActionButton(
+            icon: Icons.add,
+            label: 'Add Transaction',
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) => const AddTransactionScreen()),
+              );
+            },
+          ),
         ),
-        _ActionButton(icon: Icons.pie_chart, label: 'Monthly Budgeting', onTap: () {}),
-        _ActionButton(icon: Icons.account_balance_wallet, label: 'Multi-Wallet', onTap: () {}),
-        _ActionButton(icon: Icons.search, label: 'Searching', onTap: () {}),
+        
+        // Tombol Monthly Budgeting
+        Expanded(
+          child: _ActionButton(
+              icon: Icons.pie_chart, label: 'Monthly Budgeting', onTap: () {}),
+        ),
+        
+        // Tombol Multi-Wallet SUDAH DIHAPUS
+
+        // Tombol Searching
+        Expanded(
+          child:
+              _ActionButton(icon: Icons.search, label: 'Searching', onTap: () {}),
+        ),
       ],
     );
   }
@@ -166,7 +180,12 @@ class _ActionButton extends StatelessWidget {
             child: Icon(icon, color: Colors.white, size: 30),
           ),
           const SizedBox(height: 8),
-          Text(label, style: Theme.of(context).textTheme.labelMedium),
+          Text(
+            label,
+            style: Theme.of(context).textTheme.labelMedium,
+            textAlign: TextAlign.center, // <-- TAMBAHKAN BARIS INI
+            maxLines: 2,
+          ),
         ],
       ),
     );

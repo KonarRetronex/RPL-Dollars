@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'add_category_screen.dart'; // Ganti 'project_name'
 import 'dashboard_screen.dart'; // Ganti 'project_name'
 import 'dart:ui'; // Untuk BackdropFilter
-import '../utils/colors.dart';
+
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -40,7 +40,7 @@ class _MainScreenState extends State<MainScreen> {
       // Gunakan BottomNavigationBar
       bottomNavigationBar: Container(
         // Ini trik untuk membuat BNB transparan
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.transparent,
         ),
         child: ClipRRect(
