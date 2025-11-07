@@ -14,8 +14,8 @@ class AppColors {
   static const Color glass = Colors.white; 
 
   // Transaksi
-  static const Color income = Color(0xFF00A86B); // Tetap hijau
-  static const Color expense = Color(0xFFFD3C4A); // Tetap merah
+  static const Color income = Color(0xFF00A86B); // Tetap hijau Color(0xFF00A86B);
+  static const Color expense = Color(0xFFFD3C4A); // Tetap merah Color(0xFFFD3C4A);
 
   // Hapus warna-warna lama seperti AppColors.card
   static const Color card = Color(0xFFFFFFFF);

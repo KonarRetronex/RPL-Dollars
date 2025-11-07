@@ -13,6 +13,9 @@ class CategoryModel extends HiveObject {
   @HiveField(2)
   TransactionType type;
 
+  @HiveField(3)
+  int? iconCodePoint;
+
   // Anda bisa tambahkan field untuk icon/color sesuai Figma
   // @HiveField(3)
   // int color; 
@@ -24,5 +27,6 @@ class CategoryModel extends HiveObject {
     required this.id,
     required this.name,
     required this.type,
+    this.iconCodePoint,
   });
 }

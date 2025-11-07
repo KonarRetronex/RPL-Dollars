@@ -19,23 +19,24 @@ class TransactionTile extends StatelessWidget {
     required this.onDelete,
   });
 
-  @override
+@override
   Widget build(BuildContext context) {
     final isIncome = transaction.type == TransactionType.income;
     final color = isIncome ? AppColors.income : AppColors.expense;
     final sign = isIncome ? '+' : '-';
-    // Ganti ikon berdasarkan kategori (Contoh sederhana)
-    final icon = category.name.toLowerCase() == 'shopping' 
-                 ? Icons.shopping_bag 
-                 : Icons.wallet_travel; // Ikon default
+    
+    // GANTI LOGIKA IKON LAMA DENGAN INI:
+    final IconData iconData = IconData(
+        category.iconCodePoint ?? Icons.category.codePoint, // Ambil dari model
+        fontFamily: 'MaterialIcons');
 
     return GlassCard(
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
       child: ListTile(
         contentPadding: EdgeInsets.zero,
         leading: CircleAvatar(
           backgroundColor: AppColors.glass.withOpacity(0.2),
-          child: Icon(icon, color: Colors.white, size: 24),
+          child: Icon(iconData, color: Colors.white, size: 24),
         ),
         title: Text(
           category.name,
@@ -44,9 +45,29 @@ class TransactionTile extends StatelessWidget {
                 color: AppColors.textPrimary,
               ),
         ),
-        subtitle: Text(
-          DateFormat('E, dd/MM/yyyy').format(transaction.date), // Format tanggal baru
-          style: Theme.of(context).textTheme.labelMedium,
+        subtitle: Column( // <-- GANTI MENJADI COLUMN
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // 1. Tampilkan Catatan (jika ada)
+            if (transaction.note.isNotEmpty) // Cek apakah catatan tidak kosong
+              Padding(
+                padding: const EdgeInsets.only(bottom: 2.0), // Beri jarak sedikit
+                child: Text(
+                  transaction.note,
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                        fontStyle: FontStyle.normal, // Buat miring agar beda
+                      ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            
+            // 2. Tampilkan Tanggal
+            Text(
+              DateFormat('E, dd/MM/yyyy').format(transaction.date), // Format tanggal
+              style: Theme.of(context).textTheme.labelMedium,
+            ),
+          ],
         ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
@@ -61,7 +82,7 @@ class TransactionTile extends StatelessWidget {
             // Tombol delete (mungkin di-hide agar UI lebih bersih, 
             // atau ganti dengan gestur 'onLongPress' pada GlassCard)
             IconButton(
-              icon: Icon(Icons.delete_outline, color: Colors.grey[600]),
+              icon: Icon(Icons.delete_outline, color: Colors.white),
               onPressed: onDelete,
             ),
           ],
