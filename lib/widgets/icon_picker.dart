@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class IconPicker extends StatelessWidget {
-  const IconPicker({Key? key}) : super(key: key);
+  const IconPicker({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class IconPicker extends StatelessWidget {
     return AlertDialog(
       title: const Text('Choose Icon'),
       backgroundColor: const Color(0xFF6750A4),
-      content: Container(
+      content: SizedBox(
         width: double.maxFinite,
         child: GridView.builder(
           shrinkWrap: true,

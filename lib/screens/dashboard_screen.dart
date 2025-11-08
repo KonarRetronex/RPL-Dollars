@@ -190,14 +190,13 @@ class _ActionButton extends StatefulWidget {
   final VoidCallback onTap;
 
   const _ActionButton({
-    Key? key, // Tambahkan Key
+    super.key, // Tambahkan Key
     this.icon,
     this.assetIconPath,
     required this.label,
     required this.onTap,
   })  : assert(icon != null || assetIconPath != null,
-            'Either icon or assetIconPath must be provided'),
-        super(key: key); // Tambahkan super(key: key)
+            'Either icon or assetIconPath must be provided'); // Tambahkan super(key: key)
 
   @override
   State<_ActionButton> createState() => _ActionButtonState();

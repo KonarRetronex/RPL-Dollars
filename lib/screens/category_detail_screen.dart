@@ -12,7 +12,7 @@ class CategoryDetailScreen extends StatelessWidget {
   // 1. Screen ini menerima data kategori
   final CategoryModel category;
   
-  const CategoryDetailScreen({Key? key, required this.category}) : super(key: key);
+  const CategoryDetailScreen({super.key, required this.category});
 
   @override
   Widget build(BuildContext context) {

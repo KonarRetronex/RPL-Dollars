@@ -106,7 +106,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                           children: [
                             Expanded(
                               child: DropdownButtonFormField<TransactionType>(
-                                value: _selectedType,
+                                initialValue: _selectedType,
                                 decoration: const InputDecoration(labelText: 'Income/Expense'),
                                 items: const [
                                   DropdownMenuItem(

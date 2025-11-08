@@ -14,7 +14,7 @@ class BalanceCard extends StatelessWidget {
       padding: const EdgeInsets.all(24.0),
 
       // 2. Kita tetap butuh Container di DALAM-nya agar Spacer berfungsi
-      child: Container(
+      child: SizedBox(
         // Beri tinggi yang pas agar sejajar dengan kartu Income/Expense
         height: 123, // Anda bisa sesuaikan angka ini
         child: Column(

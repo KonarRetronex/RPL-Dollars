@@ -82,7 +82,7 @@ class TransactionTile extends StatelessWidget {
             // Tombol delete (mungkin di-hide agar UI lebih bersih, 
             // atau ganti dengan gestur 'onLongPress' pada GlassCard)
             IconButton(
-              icon: Icon(Icons.delete_outline, color: Colors.white),
+              icon: const Icon(Icons.delete_outline, color: Colors.white),
               onPressed: onDelete,
             ),
           ],
