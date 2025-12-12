@@ -128,12 +128,11 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
               surface: AppColors.background, // Warna background picker
               onSurface: AppColors.textPrimary, // Warna teks
             ),
-            dialogBackgroundColor: AppColors.background.withOpacity(0.8),
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
                 foregroundColor: AppColors.textPrimary, // Warna tombol Batal/OK
               ),
-            ),
+            ), dialogTheme: DialogThemeData(backgroundColor: AppColors.background.withOpacity(0.8)),
           ),
           child: child!,
         );
@@ -420,7 +419,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                     
                         decoration: BoxDecoration(
-                          color: Color(0xFF6750A4),
+                          color: const Color(0xFF6750A4),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: TextField(
@@ -450,7 +449,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                   onPressed: _submitTransaction,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white70,
-                    foregroundColor: Color(0xFF6750A4),
+                    foregroundColor: const Color(0xFF6750A4),
                     minimumSize: const Size(double.infinity, 55),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
@@ -526,11 +525,11 @@ class _KeypadButton extends StatefulWidget { // <-- 1. Ubah ke StatefulWidget
   final VoidCallback onTap;
 
   const _KeypadButton({
-    Key? key, // Tambahkan Key
+    super.key, // Tambahkan Key
     this.label, 
     this.icon, 
     required this.onTap
-  }) : super(key: key); // Tambahkan super(key: key)
+  }); // Tambahkan super(key: key)
 
   @override
   State<_KeypadButton> createState() => _KeypadButtonState();

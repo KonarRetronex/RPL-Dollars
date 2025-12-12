@@ -5,6 +5,10 @@ import 'dart:ui'; // Untuk BackdropFilter
 import 'add_category_screen.dart'; 
 import 'dashboard_screen.dart'; 
 
+import 'profile_screen.dart';
+import '../providers/user_provider.dart';
+import 'package:provider/provider.dart';
+
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -37,6 +41,8 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final userProvider = Provider.of<UserProvider>(context);
     // 1. Bungkus semuanya dengan Stack
     return Stack(
       children: [
@@ -54,8 +60,12 @@ class _MainScreenState extends State<MainScreen> {
         Scaffold(
           backgroundColor: Colors.transparent, // <-- PENTING: Buat Scaffold transparan
           appBar: AppBar(
-            // AppBar sudah transparan dari theme, jadi akan tembus
-            title: Text(_widgetTitles.elementAt(_selectedIndex)),
+            // 2. LOGIKA JUDUL DINAMIS
+            // Jika index 0 (Homepage), tampilkan dari UserProvider
+            // Jika bukan, ambil dari _widgetTitles seperti biasa
+            title: _selectedIndex == 0
+                ? Text('Halo ${userProvider.nickname}!') 
+                : Text(_widgetTitles.elementAt(_selectedIndex)),
           ),
           
           body: _widgetOptions.elementAt(_selectedIndex),

@@ -165,6 +165,16 @@ class ProfileScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _ProfileField(
+                          label: 'Nickname', 
+                          value: userProvider.nickname,
+                          onTap: () => _showEditDialog(
+                            context, 
+                            'Nickname', 
+                            userProvider.nickname, 
+                            (val) => userProvider.updateProfile(nickname: val)
+                          ),
+                        ),
+                        _ProfileField(
                           label: 'Full Name', 
                           value: userProvider.name,
                           onTap: () => _showEditDialog(context, 'Full Name', userProvider.name, (val) => userProvider.updateProfile(name: val)),

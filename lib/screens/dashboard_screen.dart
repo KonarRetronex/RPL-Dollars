@@ -190,7 +190,6 @@ class _ActionButton extends StatefulWidget {
   final VoidCallback onTap;
 
   const _ActionButton({
-    super.key, // Tambahkan Key
     this.icon,
     this.assetIconPath,
     required this.label,

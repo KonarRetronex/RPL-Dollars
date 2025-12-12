@@ -4,12 +4,14 @@ import 'package:hive/hive.dart';
 class UserProvider with ChangeNotifier {
   final Box _userBox = Hive.box('user_prefs'); // Pastikan box ini dibuka di main.dart nanti
 
+  String _nickname = '';
   String _name = '';
   String _email = '';
   String _imagePath = '';
   String _language = 'English';
   String _theme = 'Dark Mode';
 
+  String get nickname => _nickname;
   String get name => _name;
   String get email => _email;
   String get imagePath => _imagePath;
@@ -29,7 +31,12 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateProfile({String? name, String? email, String? language, String? theme}) async {
+  Future<void> updateProfile({String? nickname, String? name, String? email, String? language, String? theme}) async {
+    if (nickname != null) {
+      _nickname = nickname;
+      await _userBox.put('nickname', nickname);
+    }
+    
     if (name != null) {
       _name = name;
       await _userBox.put('name', name);

@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import '../models/category_model.dart';
 import '../models/transaction_model.dart';
-import '../providers/category_provider.dart';
 import '../providers/transaction_provider.dart';
 import '../widgets/transaction_tile.dart';
 import '../utils/colors.dart';
