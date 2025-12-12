@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../providers/user_provider.dart';
 import '../utils/colors.dart';
 import '../widgets/glass_card.dart';
+import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -136,20 +137,22 @@ class ProfileScreen extends StatelessWidget {
                   // Edit Profile Button (Capsule)
                   GestureDetector(
                     onTap: () {
-                      _showEditDialog(context, 'Full Name', userProvider.name, (val) {
-                         userProvider.updateProfile(name: val);
-                      });
+                      // NAVIGASI KE HALAMAN EDIT PROFILE
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const EditProfileScreen()),
+                      );
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFD6A4BD), // Warna pink/ungu muda sesuai gambar
+                        color: const Color(0xFFD6A4BD), 
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: const Text(
                         'Edit profile',
                         style: TextStyle(
-                          color: Color(0xFF4A3780), // Warna teks ungu tua
+                          color: Color(0xFF4A3780),
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -158,42 +161,17 @@ class ProfileScreen extends StatelessWidget {
 
                   const SizedBox(height: 40),
 
-                  // Profile Fields
+                  // Profile Fields (HANYA MENAMPILKAN DATA, TIDAK BISA KLIK)
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _ProfileField(
-                          label: 'Nickname', 
-                          value: userProvider.nickname,
-                          onTap: () => _showEditDialog(
-                            context, 
-                            'Nickname', 
-                            userProvider.nickname, 
-                            (val) => userProvider.updateProfile(nickname: val)
-                          ),
-                        ),
-                        _ProfileField(
-                          label: 'Full Name', 
-                          value: userProvider.name,
-                          onTap: () => _showEditDialog(context, 'Full Name', userProvider.name, (val) => userProvider.updateProfile(name: val)),
-                        ),
-                        _ProfileField(
-                          label: 'Email', 
-                          value: userProvider.email,
-                          onTap: () => _showEditDialog(context, 'Email', userProvider.email, (val) => userProvider.updateProfile(email: val)),
-                        ),
-                        _ProfileField(
-                          label: 'Language', 
-                          value: userProvider.language,
-                          onTap: () => _showEditDialog(context, 'Language', userProvider.language, (val) => userProvider.updateProfile(language: val)),
-                        ),
-                        _ProfileField(
-                          label: 'Theme', 
-                          value: userProvider.theme,
-                          onTap: () => _showEditDialog(context, 'Theme', userProvider.theme, (val) => userProvider.updateProfile(theme: val)),
-                        ),
+                        _ProfileDisplayField(label: 'Nickname', value: userProvider.nickname),
+                        _ProfileDisplayField(label: 'Full Name', value: userProvider.name),
+                        _ProfileDisplayField(label: 'Email', value: userProvider.email),
+                        _ProfileDisplayField(label: 'Language', value: userProvider.language),
+                        _ProfileDisplayField(label: 'Theme', value: userProvider.theme),
                       ],
                     ),
                   ),
@@ -254,45 +232,40 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-// Widget Helper untuk Baris Field (Nama, Email, dll)
-class _ProfileField extends StatelessWidget {
+// Widget Helper untuk Menampilkan Data (Statis/Tidak bisa diklik)
+class _ProfileDisplayField extends StatelessWidget {
   final String label;
   final String value;
-  final VoidCallback onTap;
 
-  const _ProfileField({
+  const _ProfileDisplayField({
     required this.label,
     required this.value,
-    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 24.0),
-      child: InkWell(
-        onTap: onTap,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              label,
-              style: TextStyle(
-                color: Colors.white.withOpacity(0.7),
-                fontSize: 14,
-              ),
+      child: Column( // Hapus InkWell/GestureDetector
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.7),
+              fontSize: 14,
             ),
-            const SizedBox(height: 4),
-            Text(
-              value,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

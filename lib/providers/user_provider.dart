@@ -9,7 +9,7 @@ class UserProvider with ChangeNotifier {
   String _email = '';
   String _imagePath = '';
   String _language = 'English';
-  String _theme = 'Dark Mode';
+  String _theme = 'Purple';
 
   String get nickname => _nickname;
   String get name => _name;
@@ -23,11 +23,12 @@ class UserProvider with ChangeNotifier {
   }
 
   void _loadUserData() {
+    _nickname = _userBox.get('nickname', defaultValue: '-');
     _name = _userBox.get('name', defaultValue: '-');
     _email = _userBox.get('email', defaultValue: '-');
     _imagePath = _userBox.get('imagePath', defaultValue: '');
     _language = _userBox.get('language', defaultValue: 'English');
-    _theme = _userBox.get('theme', defaultValue: 'Dark Mode');
+    _theme = _userBox.get('theme', defaultValue: 'Purple');
     notifyListeners();
   }
 

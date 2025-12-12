@@ -8,6 +8,7 @@ import 'dashboard_screen.dart';
 import 'profile_screen.dart';
 import '../providers/user_provider.dart';
 import 'package:provider/provider.dart';
+import 'statistic_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -21,7 +22,7 @@ class _MainScreenState extends State<MainScreen> {
 
   static final List<Widget> _widgetOptions = <Widget>[
     const DashboardScreen(),
-    const Center(child: Text('Halaman Statistik')), // Placeholder
+    const StatisticScreen(), // Halaman Statistik
     const AddCategoryScreen(), // Halaman Kategori
     const ProfileScreen(), // Halaman Profil
   ];
