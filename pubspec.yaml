@@ -44,6 +44,8 @@ dependencies:
   uuid: ^4.4.0            # Untuk generate ID unik
   google_fonts: ^6.2.1    # Untuk font modern (sesuai Figma)
 
+  image_picker: ^1.0.4  # Tambahkan ini untuk ambil foto
+  # path_provider already declared above as ^2.1.3; removed duplicate entry
 
 
 

@@ -8,6 +8,7 @@ import 'providers/category_provider.dart';
 import 'providers/transaction_provider.dart';
 import 'screens/main_screen.dart';
 import 'utils/theme.dart';
+import 'providers/user_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +25,8 @@ Future<void> main() async {
   await Hive.openBox<TransactionModel>('transactions');
   await Hive.openBox<CategoryModel>('categories');
 
+  await Hive.openBox('user_prefs'); // <-- BUKA BOX INI
+
   runApp(const MyApp());
 }
 
@@ -37,6 +40,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => TransactionProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: MaterialApp(
         title: 'Finance App',

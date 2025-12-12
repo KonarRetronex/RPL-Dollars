@@ -19,7 +19,7 @@ class _MainScreenState extends State<MainScreen> {
     const DashboardScreen(),
     const Center(child: Text('Halaman Statistik')), // Placeholder
     const AddCategoryScreen(), // Halaman Kategori
-    const Center(child: Text('Halaman Profil')), // Placeholder
+    const ProfileScreen(), // Halaman Profil
   ];
 
   static const List<String> _widgetTitles = <String>[
