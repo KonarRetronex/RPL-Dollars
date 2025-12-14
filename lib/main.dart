@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
@@ -15,22 +16,47 @@ import 'providers/budget_provider.dart'; // Import Provider
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  print('MAIN: WidgetsFlutterBinding.ensureInitialized');
 
   // 1. Inisialisasi Hive
-  await Hive.initFlutter();
+  try {
+    print('MAIN: Hive.initFlutter() start');
+    await Hive.initFlutter().timeout(const Duration(seconds: 10));
+    print('MAIN: Hive.initFlutter() done');
+  } catch (e, st) {
+    print('MAIN: Hive.initFlutter() ERROR: $e\n$st');
+  }
 
   // 2. Registrasi Adapters (termasuk enum)
-  Hive.registerAdapter(TransactionTypeAdapter());
-  Hive.registerAdapter(TransactionModelAdapter());
-  Hive.registerAdapter(CategoryModelAdapter());
-  Hive.registerAdapter(BudgetModelAdapter());
+  try {
+    print('MAIN: Registering adapters');
+    Hive.registerAdapter(TransactionTypeAdapter());
+    Hive.registerAdapter(TransactionModelAdapter());
+    Hive.registerAdapter(CategoryModelAdapter());
+    Hive.registerAdapter(BudgetModelAdapter());
+    print('MAIN: Adapters registered');
+  } catch (e, st) {
+    print('MAIN: Register adapters ERROR: $e\n$st');
+  }
 
-  // 3. Buka Boxes
-  await Hive.openBox<TransactionModel>('transactions');
-  await Hive.openBox<CategoryModel>('categories');
+  // 3. Buka Boxes (each with timeout & error logging)
+  Future<void> openBoxWithLog<T>(String name) async {
+    try {
+      print('MAIN: opening box $name');
+      await Hive.openBox<T>(name).timeout(const Duration(seconds: 10));
+      print('MAIN: opened box $name');
+    } on TimeoutException catch (e) {
+      print('MAIN: openBox $name TIMEOUT: $e');
+    } catch (e, st) {
+      print('MAIN: openBox $name ERROR: $e\n$st');
+    }
+  }
 
-  await Hive.openBox('user_prefs'); // <-- BUKA BOX INI
+  await openBoxWithLog<TransactionModel>('transactions');
+  await openBoxWithLog<CategoryModel>('categories');
+  await openBoxWithLog('user_prefs');
 
+  print('MAIN: finished init, calling runApp()');
   runApp(const MyApp());
 }
 
