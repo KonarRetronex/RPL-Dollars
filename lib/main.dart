@@ -10,6 +10,9 @@ import 'screens/main_screen.dart';
 import 'utils/theme.dart';
 import 'providers/user_provider.dart';
 
+import 'models/budget_model.dart'; // Import Model
+import 'providers/budget_provider.dart'; // Import Provider
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -20,6 +23,7 @@ Future<void> main() async {
   Hive.registerAdapter(TransactionTypeAdapter());
   Hive.registerAdapter(TransactionModelAdapter());
   Hive.registerAdapter(CategoryModelAdapter());
+  Hive.registerAdapter(BudgetModelAdapter());
 
   // 3. Buka Boxes
   await Hive.openBox<TransactionModel>('transactions');
@@ -41,6 +45,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => TransactionProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => BudgetProvider()),
       ],
       child: MaterialApp(
         title: 'Finance App',

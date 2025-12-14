@@ -11,6 +11,7 @@ import 'add_transaction_screen.dart'; // Untuk tombol 'Add Transaction'
 // import '../widgets/expense_chart.dart'; 
 import '../widgets/glass_card.dart';
 import '../utils/colors.dart';
+import 'monthly_budget_screen.dart'; // Untuk tombol 'Monthly Budgeting'
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -163,9 +164,18 @@ class DashboardScreen extends StatelessWidget {
         ),
         
         // Tombol Monthly Budgeting
-        Expanded(
+       Expanded(
           child: _ActionButton(
-              assetIconPath: 'assets/icons/budgetting.png', label: 'Monthly Budgeting', onTap: () {}),
+            assetIconPath: 'assets/icons/budgetting.png', 
+            label: 'Monthly Budgeting', 
+            onTap: () {
+               // NAVIGASI KE SINI
+               Navigator.push(
+                 context, 
+                 MaterialPageRoute(builder: (context) => const MonthlyBudgetScreen())
+               );
+            }
+          ),
         ),
         
         // Tombol Multi-Wallet SUDAH DIHAPUS
