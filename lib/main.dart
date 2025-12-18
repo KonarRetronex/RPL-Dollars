@@ -55,6 +55,7 @@ Future<void> main() async {
   await openBoxWithLog<TransactionModel>('transactions');
   await openBoxWithLog<CategoryModel>('categories');
   await openBoxWithLog('user_prefs');
+  await openBoxWithLog<BudgetModel>('budgets');
 
   print('MAIN: finished init, calling runApp()');
   runApp(const MyApp());
@@ -83,5 +84,3 @@ class MyApp extends StatelessWidget {
   }
 }
 
-//testing testing
-//testing 2 3 4 5

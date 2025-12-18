@@ -3,41 +3,81 @@ import 'package:hive/hive.dart';
 import '../models/budget_model.dart';
 
 class BudgetProvider with ChangeNotifier {
-  late Box<BudgetModel> _budgetBox;
+  Box<BudgetModel>? _budgetBox;
 
-  List<BudgetModel> get budgets => _budgetBox.values.toList();
+  // Getter: Ambil data, return kosong jika box belum siap
+  List<BudgetModel> get budgets {
+    if (_budgetBox == null || !_budgetBox!.isOpen) {
+      return [];
+    }
+    return _budgetBox!.values.toList();
+  }
 
   BudgetProvider() {
     _initBox();
   }
 
   Future<void> _initBox() async {
-    _budgetBox = await Hive.openBox<BudgetModel>('budgets');
+    // Pastikan box terbuka
+    if (Hive.isBoxOpen('budgets')) {
+      _budgetBox = Hive.box<BudgetModel>('budgets');
+    } else {
+      _budgetBox = await Hive.openBox<BudgetModel>('budgets');
+    }
     notifyListeners();
   }
 
-  // Tambah Budget Baru
   Future<void> addBudget(BudgetModel budget) async {
-    // Cek apakah budget untuk kategori ini di bulan ini sudah ada?
-    final exists = _budgetBox.values.any((b) => 
-      b.categoryId == budget.categoryId && 
-      b.month == budget.month && 
-      b.year == budget.year
-    );
-
-    if (exists) {
-      // Jika sudah ada, kita update saja yang lama (opsional, atau tolak)
-      // Disini kita biarkan user tahu atau hapus dulu yang lama
-      return; 
+    // 1. Cek Box
+    if (_budgetBox == null || !_budgetBox!.isOpen) {
+      await _initBox();
+    }
+    
+    // Jika masih gagal buka, lempar error
+    if (_budgetBox == null || !_budgetBox!.isOpen) {
+      throw "Database Error: Box 'budgets' cannot be opened.";
     }
 
-    await _budgetBox.put(budget.id, budget);
-    notifyListeners();
+    try {
+      dynamic existingKey;
+
+      // 2. Cek apakah Budget untuk Kategori & Bulan ini sudah ada?
+      // Kita loop manual (lebih aman daripada firstWhere)
+      for (var key in _budgetBox!.keys) {
+        final b = _budgetBox!.get(key);
+        // Pastikan b tidak null sebelum cek properti
+        if (b != null && 
+            b.categoryId == budget.categoryId && 
+            b.month == budget.month && 
+            b.year == budget.year) {
+          existingKey = key; // Ketemu data lama!
+          break; 
+        }
+      }
+
+      if (existingKey != null) {
+        // UPDATE: Timpa data lama dengan data baru
+        print("LOG: Update Budget Lama (Key: $existingKey)");
+        await _budgetBox!.put(existingKey, budget); 
+      } else {
+        // BARU: Simpan data baru
+        print("LOG: Simpan Budget Baru (ID: ${budget.id})");
+        await _budgetBox!.put(budget.id, budget);
+      }
+      
+      notifyListeners(); // Update UI
+      print("LOG: SUKSES SAVE!");
+
+    } catch (e) {
+      print("LOG: ERROR DI PROVIDER: $e");
+      rethrow; // <--- INI PENTING: Lempar error ke UI agar muncul SnackBar Merah
+    }
   }
 
-  // Hapus Budget
   Future<void> deleteBudget(String id) async {
-    await _budgetBox.delete(id);
-    notifyListeners();
+    if (_budgetBox != null && _budgetBox!.isOpen) {
+      await _budgetBox!.delete(id);
+      notifyListeners();
+    }
   }
 }

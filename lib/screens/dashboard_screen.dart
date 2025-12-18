@@ -12,6 +12,7 @@ import 'add_transaction_screen.dart'; // Untuk tombol 'Add Transaction'
 import '../widgets/glass_card.dart';
 import '../utils/colors.dart';
 import 'monthly_budget_screen.dart'; // Untuk tombol 'Monthly Budgeting'
+import 'package:rpl_fr/screens/search_screen.dart';// Untuk tombol 'Searching'
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -182,8 +183,18 @@ class DashboardScreen extends StatelessWidget {
 
         // Tombol Searching
         Expanded(
-          child:
-              _ActionButton(assetIconPath: 'assets/icons/search.png', label: 'Searching', onTap: () {}),
+          child: _ActionButton(
+            assetIconPath: 'assets/icons/search.png', // Sesuaikan path icon kamu
+            label: 'Searching',
+            onTap: () {
+              // --- NAVIGASI KE SINI ---
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SearchScreen()),
+              );
+              // ------------------------
+            },
+          ),
         ),
       ],
     );
@@ -274,3 +285,4 @@ class _ActionButtonState extends State<_ActionButton> {
     );
   }
 }
+
