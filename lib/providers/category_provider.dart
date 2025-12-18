@@ -28,7 +28,7 @@ class CategoryProvider with ChangeNotifier {
       CategoryModel(id: _uuid.v4(), name: 'Salary', type: TransactionType.income, iconCodePoint: Icons.wallet_travel.codePoint),
       CategoryModel(id: _uuid.v4(), name: 'investment', type: TransactionType.income, iconCodePoint: Icons.insights.codePoint),
       CategoryModel(id: _uuid.v4(), name: 'Food', type: TransactionType.expense, iconCodePoint: Icons.restaurant.codePoint),
-      CategoryModel(id: _uuid.v4(), name: 'Transportation', type: TransactionType.expense, iconCodePoint: Icons.directions_bus.codePoint),
+      //CategoryModel(id: _uuid.v4(), name: 'Transportation', type: TransactionType.expense, iconCodePoint: Icons.directions_bus.codePoint),
       CategoryModel(id: _uuid.v4(), name: 'Bill', type: TransactionType.expense, iconCodePoint: Icons.receipt_long.codePoint),
       CategoryModel(id: _uuid.v4(), name: 'Shopping', type: TransactionType.expense, iconCodePoint: Icons.shopping_bag.codePoint),
     ];
