@@ -12,7 +12,7 @@ import 'add_transaction_screen.dart'; // Untuk tombol 'Add Transaction'
 import '../widgets/glass_card.dart';
 import '../utils/colors.dart';
 import 'monthly_budget_screen.dart'; // Untuk tombol 'Monthly Budgeting'
-import 'package:rpl_fr/screens/search_screen.dart' as search_screen; // Untuk tombol 'Searching'
+import 'package:rpl_fr/screens/search_screen.dart'; // Untuk tombol 'Searching'
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -27,7 +27,7 @@ class DashboardScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // 1. Latar Belakang Gambar
+          // 1. Background
           Container(
            decoration: const BoxDecoration(
             image: DecorationImage(
@@ -43,51 +43,72 @@ class DashboardScreen extends StatelessWidget {
               Provider.of<TransactionProvider>(context, listen: false).loadTransactions();
               Provider.of<CategoryProvider>(context, listen: false).loadCategories();
             },
-            
-            // UBAH DARI 'ListView' MENJADI 'Padding' DAN 'Column'
             child: Padding(
-              padding: const EdgeInsets.all(16.0), // Padding tetap di luarp
+              padding: const EdgeInsets.all(16.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start, // Agar 'Recent Transaction' rata kiri
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // 1. Kartu Balance & Income/Expense (STATIS)
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Kolom Kiri: Balance
-                      Expanded(
-                        flex: 2, 
-                        child: BalanceCard(
-                          balance: currencyFormatter.format(txProvider.totalBalance),
+                  // --- BAGIAN INI KEMBALI SEPERTI SEMULA (TAPI ANTI-OVERFLOW) ---
+                  SizedBox(
+                    height: 140, // Tinggi tetap agar rapi
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // KIRI: Balance (Lebih Lebar - Flex 2)
+                        Expanded(
+                          flex: 2, 
+                          child: BalanceCard(
+                            balance: currencyFormatter.format(txProvider.totalBalance),
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 16),
-                      // Kolom Kanan: Income & Expense
-                      Expanded(
-                        flex: 1,
-                        child: IncomeExpenseCard(
-                          income: currencyFormatter.format(txProvider.totalIncome),
-                          expense: currencyFormatter.format(txProvider.totalExpense),
+                        
+                        const SizedBox(width: 12),
+                        
+                        // KANAN: Income & Expense (Lebih Sempit - Flex 1)
+                        // Disusun Vertikal (Atas/Bawah)
+                        Expanded(
+                          flex: 1,
+                          child: Column(
+                            children: [
+                              // Kartu Income (Hijau)
+                              _buildMiniCard(
+                                title: "Income",
+                                amount: currencyFormatter.format(txProvider.totalIncome),
+                                icon: Icons.arrow_upward,
+                                color: const Color(0xFF00D26A),
+                              ),
+                              
+                              const SizedBox(height: 12),
+                              
+                              // Kartu Expense (Merah)
+                              _buildMiniCard(
+                                title: "Expense",
+                                amount: currencyFormatter.format(txProvider.totalExpense),
+                                icon: Icons.arrow_downward,
+                                color: const Color(0xFFFF2D2D),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
+                  // -----------------------------------------------------------
+
                   const SizedBox(height: 24),
 
-                  // 2. Tombol Aksi (STATIS)
+                  // 2. Tombol Aksi
                   _buildActionButtons(context),
                   const SizedBox(height: 24),
 
-                  // 3. Transaksi Terbaru (STATIS)
+                  // 3. Header Transaksi
                   Text(
                     'Recent Transaction',
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
                   const SizedBox(height: 12),
 
-                  // 4. Daftar Transaksi (SCROLLABLE)
-                  // 'Expanded' mengambil sisa ruang dan membuat child-nya bisa scroll
+                  // 4. List Transaksi
                   Expanded(
                     child: txProvider.transactions.isEmpty
                         ? const Center(
@@ -97,7 +118,6 @@ class DashboardScreen extends StatelessWidget {
                             ),
                           )
                         : ListView.builder(
-                            // HAPUS shrinkWrap dan physics
                             itemCount: txProvider.transactions.length,
                             itemBuilder: (ctx, index) {
                               final tx = txProvider.transactions[index];
@@ -109,11 +129,12 @@ class DashboardScreen extends StatelessWidget {
                                   category: category,
                                   formatter: currencyFormatter,
                                   onDelete: () {
+                                    // Logika hapus (kode asli Anda)
                                     showDialog(
                                       context: context,
                                       builder: (ctx) => AlertDialog(
                                         title: const Text('Delete Transaction'),
-                                        content: Text('Are you sure want to delete this transaction "${category.name}"?'),
+                                        content: Text('Delete "${category.name}"?'),
                                         actions: [
                                           TextButton(
                                             child: const Text('Cancel'),
@@ -143,6 +164,63 @@ class DashboardScreen extends StatelessWidget {
       ),
     );
   }
+
+  // --- HELPER BARU: KARTU KECIL ANTI-OVERFLOW ---
+  // Gunakan ini untuk menggantikan IncomeExpenseCard agar tidak error
+  Widget _buildMiniCard({
+    required String title,
+    required String amount,
+    required IconData icon,
+    required Color color,
+  }) {
+    return Expanded(
+      child: GlassCard(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        borderRadius: 16,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Baris Atas: Icon Kecil + Judul
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(color: Colors.white10, shape: BoxShape.circle),
+                  child: Icon(icon, color: color, size: 12),
+                ),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: const TextStyle(color: Colors.white70, fontSize: 10),
+                    overflow: TextOverflow.ellipsis, // Potong teks judul jika kepanjangan
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            
+            // Baris Bawah: Nominal Uang (Auto-Shrink)
+            FittedBox(
+              fit: BoxFit.scaleDown, // <--- KUNCI ANTI-OVERFLOW
+              alignment: Alignment.centerLeft,
+              child: Text(
+                amount,
+                style: const TextStyle(
+                  color: Colors.white, 
+                  fontWeight: FontWeight.bold, 
+                  fontSize: 13
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ... (Sisa kode _buildActionButtons dan lainnya biarkan sama) ...
 
   // Widget helper untuk tombol aksi
  Widget _buildActionButtons(BuildContext context) {
@@ -199,7 +277,67 @@ class DashboardScreen extends StatelessWidget {
       ],
     );
   }
-}
+// Taruh fungsi ini di bagian paling bawah class DashboardScreen
+  Widget _buildSummaryCard({
+    required String title,
+    required String amount,
+    required IconData icon,
+    required Color color,
+  }) {
+    return Expanded( // 1. Membagi lebar layar 50:50
+      child: GlassCard(
+        padding: const EdgeInsets.all(12),
+        borderRadius: 20,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                // Icon Container
+                Container(
+                  padding: const EdgeInsets.all(6), 
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(icon, color: color, size: 18),
+                ),
+                const SizedBox(width: 8),
+                
+                // Judul (Income/Expense) dengan TextOverflow
+                Expanded( // 2. Mencegah teks judul menabrak tepi kanan
+                  child: Text(
+                    title,
+                    style: const TextStyle(color: Colors.white70, fontSize: 12),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            
+            // Nominal Uang dengan FittedBox
+            FittedBox( // 3. Mengecilkan ukuran font otomatis jika angka panjang
+              fit: BoxFit.scaleDown, 
+              alignment: Alignment.centerLeft,
+              child: Text(
+                amount,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+} // <--- Ini kurung tutup terakhir class DashboardScreen Anda
+
+
 
 // Widget helper untuk UI tombol
 // GANTI SELURUH CLASS LAMA ANDA DENGAN SEMUA KODE DI BAWAH INI

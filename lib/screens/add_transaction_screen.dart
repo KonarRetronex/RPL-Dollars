@@ -174,7 +174,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
         .addTransaction(newTransaction);
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Transaksi berhasil ditambahkan!')),
+      const SnackBar(content: Text('Transaction successfully added!')),
     );
 
     // Reset state
