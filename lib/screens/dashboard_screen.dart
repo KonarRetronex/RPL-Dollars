@@ -12,7 +12,7 @@ import 'add_transaction_screen.dart'; // Untuk tombol 'Add Transaction'
 import '../widgets/glass_card.dart';
 import '../utils/colors.dart';
 import 'monthly_budget_screen.dart'; // Untuk tombol 'Monthly Budgeting'
-import 'package:rpl_fr/screens/search_screen.dart';// Untuk tombol 'Searching'
+import 'package:rpl_fr/screens/search_screen.dart' as search_screen; // Untuk tombol 'Searching'
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -46,7 +46,7 @@ class DashboardScreen extends StatelessWidget {
             
             // UBAH DARI 'ListView' MENJADI 'Padding' DAN 'Column'
             child: Padding(
-              padding: const EdgeInsets.all(16.0), // Padding tetap di luar
+              padding: const EdgeInsets.all(16.0), // Padding tetap di luarp
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start, // Agar 'Recent Transaction' rata kiri
                 children: [
