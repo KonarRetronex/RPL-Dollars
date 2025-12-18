@@ -13,7 +13,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # Read more about Android versioning at https://developer.android.com/studio/publish/versioning
 # In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
 # Read more about iOS versioning at
-# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# https://developer.apple.com/library/archiv`e/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
 version: 1.0.0+1
@@ -59,6 +59,37 @@ dev_dependencies:
   build_runner: ^2.4.9
   
   flutter_lints: ^3.0.0
+
+  flutter_native_splash: ^2.3.3
+
+  flutter_launcher_icons: ^0.13.1
+
+flutter_native_splash:
+  # Warna background ungu (diambil dari gambar Anda)
+  color: "#7e6a9e"
+
+  # Untuk iOS dan Android di bawah 12, coba gunakan gambar penuh
+  background_image: "assets/images/app_icon.png"
+
+  # KONFIGURASI KHUSUS ANDROID 12+
+  android_12:
+    # HANYA gunakan warna background, JANGAN set 'image' di sini.
+    color: "#7e6a9e"
+    #Pastikan tidak ada branding image di bawah agar tidak muncul di bawah layar
+    branding_dark: null
+    branding: null
+    # Biarkan icon background color transparan
+    icon_background_color: "#7e6a9e"
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/app_icon.png"
+  min_sdk_android: 21 # sesuai dengan minSdk di android/app/build.gradle
+  
+  # Opsional: Untuk Android 8.0+ (Adaptive Icons)
+  adaptive_icon_background: "#7e6a9e" # Warna ungu sesuai tema Anda
+  adaptive_icon_foreground: "assets/images/app_icon.png"
   
 flutter:
 

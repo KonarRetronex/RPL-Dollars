@@ -13,6 +13,7 @@ import 'providers/user_provider.dart';
 
 import 'models/budget_model.dart'; // Import Model
 import 'providers/budget_provider.dart'; // Import Provider
+import 'screens/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -78,7 +79,8 @@ class MyApp extends StatelessWidget {
         title: 'Finance App',
         debugShowCheckedModeBanner: false,
         theme: buildAppTheme(), // Terapkan tema custom kita
-        home: const MainScreen(),
+        //home: const MainScreen(),
+        home: const SplashScreen(),
       ),
     );
   }

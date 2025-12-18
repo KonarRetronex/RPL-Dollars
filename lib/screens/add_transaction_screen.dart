@@ -238,8 +238,8 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                     const Text("Transaction Saved!", style: TextStyle(fontWeight: FontWeight.bold)),
                     Text(
                       remainingPercent <= 0 
-                        ? "Overbudget! Budget habis."
-                        : "Warning! Sisa budget ${(remainingPercent * 100).toStringAsFixed(0)}%.",
+                        ? "Overbudget! The budget has run out."
+                        : "Warning! Remaining budget ${(remainingPercent * 100).toStringAsFixed(0)}%.",
                       style: const TextStyle(fontSize: 12),
                     ),
                   ],
